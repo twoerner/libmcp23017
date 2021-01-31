@@ -8,7 +8,6 @@ SUBDIRS = @SUBDIRS@
 DIST_SUBDIRS = @SUBDIRS@
 
 EXTRA_DIST = LICENSE.txt README.md
-ACLOCAL_AMFLAGS = "-I cfg/m4"
 
 distcleancheck:
 	$(RM) *libtool
