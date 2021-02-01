@@ -5,7 +5,7 @@ AC_PREREQ(2.57)
 AC_INIT([libmcp23017], 0.1.0, twoerner@gmail.com, libmcp23017)
 AC_CONFIG_SRCDIR(samples/mcp23017.c)
 AC_CONFIG_AUX_DIR(cfg)
-AC_CONFIG_MACRO_DIRS([cfg/m4])
+AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE([foreign no-dist-gzip dist-xz])
 AM_CONFIG_HEADER(config.h)
 

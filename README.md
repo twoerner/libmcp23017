@@ -11,7 +11,6 @@ This project has a hard dependency on the i2c-tools library:
 This project uses the autoconf build system. After a fresh clone remember
 to run:
 ```
-	$ mkdir -p cfg/m4
 	$ autoreconf -i
 ```
 
