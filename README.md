@@ -45,6 +45,10 @@ of the development of this library.
 		 5  - read register
 		 9  - reset
 
+	samples/mcp23017util.c
+		Exact same functionality as samples/mcp23017.c,
+		except this one uses the in-progress libmcp23017.la.
+
 
 Contributing
 ============

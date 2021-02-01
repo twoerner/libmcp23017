@@ -7,7 +7,9 @@
 SUBDIRS = @SUBDIRS@
 DIST_SUBDIRS = @SUBDIRS@
 
-EXTRA_DIST = LICENSE.txt README.md
+EXTRA_DIST = LICENSE.txt README.md libmcp23017.pc.in
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libmcp23017.pc
 
 distcleancheck:
 	$(RM) *libtool

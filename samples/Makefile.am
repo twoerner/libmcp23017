@@ -8,6 +8,6 @@ SUBDIRS =
 
 AM_CFLAGS = -Wall -Werror -Wextra -Wconversion -Wreturn-type -Wstrict-prototypes \
 	-I$(top_srcdir)/lib
-#LDADD = $(top_builddir)/lib/libmcp23017.la
 
-noinst_PROGRAMS = mcp23017
+noinst_PROGRAMS = mcp23017 mcp23017util
+mcp23017util_LDADD = $(top_builddir)/lib/libmcp23017.la
