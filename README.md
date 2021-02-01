@@ -23,7 +23,7 @@ Samples
 The samples/ subdirectory contains a "doodle" app that was written as part
 of the development of this library.
 
-	samples/mpc23017.c:
+	samples/mcp23017.c:
 		A stand-alone program that presents the user with a menu of
 		commands to run. This program assumes the mcp23017 is wired to
 		a RaspberryPi and that GPIO#4 is wired to the mcp23017's /RESET
