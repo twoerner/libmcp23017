@@ -17,6 +17,12 @@ to run:
 I generally build all my code/images with OpenEmbedded/Yocto, therefore my
 recipes take care of these details.
 
+NOTE: if building with an SDK, to do a _make distcheck_ (and your build host
+is x86\_64), use:
+```
+	$ DISTCHECK_CONFIGURE_FLAGS=--host=x86_64 make distcheck
+```
+
 
 Samples
 =======
