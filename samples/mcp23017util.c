@@ -158,6 +158,8 @@ print_menu (void)
 	printf(" 3  - get gpio A\n");
 	printf(" 4  - get gpio B\n");
 	printf(" 5  - read register\n");
+	printf(" 6  - set bit\n");
+	printf(" 7  - clear bit\n");
 	printf(" 9  - reset\n");
 }
 
@@ -168,6 +170,7 @@ process_cmd (void)
 	bool bret;
 	char buf[32];
 	uint8_t reg, val;
+	Mcp23017Bit_e bit;
 
 	fgets(buf, sizeof(buf), stdin);
 	sscanf(buf, "%i", &ch);
@@ -221,6 +224,43 @@ process_cmd (void)
 			}
 			if (mcp23017__get_reg(reg, &val))
 				printf("register: 0x%02x is 0x%02x\n", reg, val);
+			break;
+
+		case 6:
+		case 7:
+			fflush(stdin);
+			printf("bit: ");
+			if (fgets(buf, sizeof(buf), stdin) == NULL) {
+				perror("fgets() error");
+				break;
+			}
+			if (sscanf(buf, "GP%c%hhd", &reg, &val) != 2) {
+				fprintf(stderr, "sscanf() error\n");
+				break;
+			}
+			switch (reg) {
+				case 'A':
+					bit = GPA0;
+					break;
+				case 'B':
+					bit = GPB0;
+					break;
+				default:
+					fprintf(stderr,
+						"specify register as \"GPA\" or \"GPB\" not 0x%02x\n", reg);
+					return;
+			}
+			if (val > 7) {
+				fprintf(stderr, "index out of range (0 ≤ %hhd ≤ 7)\n", val);
+				break;
+			}
+			bit += val;
+			if (ch == 6)
+				if (!mcp23017__set_bit(bit))
+					fprintf(stderr, "set bit error\n");
+			if (ch == 7)
+				if (!mcp23017__clear_bit(bit))
+					fprintf(stderr, "clear bit error\n");
 			break;
 
 		case 9:

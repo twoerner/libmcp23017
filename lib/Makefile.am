@@ -14,7 +14,7 @@ pkginclude_HEADERS = mcp23017.h
 lib_LTLIBRARIES = libmcp23017.la
 libmcp23017_la_SOURCES = mcp23017.c mcp23017.h
 libmcp23017_la_LDFLAGS =  -release @VERSION@
-libmcp23017_la_LDFLAGS += -version-info 0:1:0
+libmcp23017_la_LDFLAGS += -version-info 1:0:1
 ## C:R:A
 ## any code change       -> inc(R)
 ## interface add/del/chg -> R=0, inc(C)

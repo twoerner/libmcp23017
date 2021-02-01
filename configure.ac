@@ -2,7 +2,7 @@ dnl Copyright (C) 2021  Trevor Woerner <twoerner@gmail.com>
 dnl SPDX-License-Identifier: OSL-3.0
 
 AC_PREREQ(2.57)
-AC_INIT([libmcp23017], 0.2.0, twoerner@gmail.com, libmcp23017)
+AC_INIT([libmcp23017], 0.3.0, twoerner@gmail.com, libmcp23017)
 AC_CONFIG_SRCDIR(samples/mcp23017.c)
 AC_CONFIG_AUX_DIR(cfg)
 AC_CONFIG_MACRO_DIRS([m4])

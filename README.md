@@ -46,8 +46,22 @@ of the development of this library.
 		 9  - reset
 
 	samples/mcp23017util.c
-		Exact same functionality as samples/mcp23017.c,
+		Has, minimally, the same functionality as samples/mcp23017.c,
 		except this one uses the in-progress libmcp23017.la.
+		Also has extra menu items for set/clear individual bits.
+		Specify the bits as: GPB6 or GPA2, etc…
+
+		Menu
+		^^^^
+		 0  - exit
+		 1  - set gpio A
+		 2  - set gpio B
+		 3  - get gpio A
+		 4  - get gpio B
+		 5  - read register
+		 6  - set bit
+		 7  - clear bit
+		 9  - reset
 
 
 Contributing

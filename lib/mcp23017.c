@@ -18,6 +18,7 @@
 #include <linux/i2c-dev.h>
 #include <i2c/smbus.h>
 
+#include "mcp23017.h"
 #include "config.h"
 
 uint8_t IODIRA;
@@ -308,4 +309,132 @@ bool
 mcp23017__get_portB (uint8_t *val_p)
 {
 	return mcp23017__get_reg(GPIOB, val_p);
+}
+
+static bool
+is_output_bit (Mcp23017Bit_e bit)
+{
+	uint8_t val;
+	uint8_t mask;
+
+	if (!libInit_G)
+		return false;
+	if (i2cFd_G < 0)
+		return false;
+	if ((bit <= INVALID) || (bit >= END))
+		return false;
+
+	if (bit < GPB0) {
+		if (!mcp23017__get_reg(IODIRA, &val))
+			return false;
+		mask = 1 << (bit - GPA0);
+	}
+	else {
+		if (!mcp23017__get_reg(IODIRB, &val))
+			return false;
+		mask = 1 < (bit - GPB0);
+	}
+
+	// output bits are 0
+	if ((mask & val) != 0) {
+		fprintf(stderr, "bit %d is not an output (mask:0x%02x val:0x%02x)\n",
+				bit, mask, val);
+		return false;
+	}
+
+	return true;
+}
+
+bool
+mcp23017__set_bit (Mcp23017Bit_e bit)
+{
+	uint8_t val;
+	uint8_t mask = 0;
+
+	// preconds
+	if (!libInit_G)
+		return false;
+	if (i2cFd_G < 0)
+		return false;
+	if ((bit <= INVALID) || (bit >= END))
+		return false;
+
+	// check if direction bit is output
+	if (!is_output_bit(bit))
+		return false;
+
+	// set bit
+	if (bit < GPB0) {
+		if (!mcp23017__get_reg(OLATA, &val)) {
+			fprintf(stderr, "set_bit(): can't get olatA\n");
+			return false;
+		}
+		mask = 1 << (bit - GPA0);
+		val |= mask;
+		if (!mcp23017__write_portA(val)) {
+			fprintf(stderr, "set_bit(): can't write portA\n");
+			return false;
+		}
+	}
+	else {
+		if (!mcp23017__get_reg(OLATB, &val)) {
+			fprintf(stderr, "set_bit(): can't get olatB\n");
+			return false;
+		}
+		mask = 1 << (bit - GPB0);
+		val |= mask;
+		if (!mcp23017__write_portB(val)) {
+			fprintf(stderr, "set_bit(): can't write portB\n");
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool
+mcp23017__clear_bit (Mcp23017Bit_e bit)
+{
+	uint8_t val;
+	uint8_t mask;
+
+	// preconds
+	if (!libInit_G)
+		return false;
+	if (i2cFd_G < 0)
+		return false;
+	if ((bit <= INVALID) || (bit >= END))
+		return false;
+
+	// check if direction is output
+	if (!is_output_bit(bit))
+		return false;
+
+	// clear bit
+	if (bit < GPB0) {
+		if (!mcp23017__get_reg(OLATA, &val)) {
+			fprintf(stderr, "clear_bit(): can't get olatA\n");
+			return false;
+		}
+		mask = (uint8_t)~(1 << (bit - GPA0));
+		val &= mask;
+		if (!mcp23017__write_portA(val)) {
+			fprintf(stderr, "clear_bit(): can't write portA\n");
+			return false;
+		}
+	}
+	else {
+		if (!mcp23017__get_reg(OLATB, &val)) {
+			fprintf(stderr, "clear_bit(): can't get olatB\n");
+			return false;
+		}
+		mask = (uint8_t)~(1 << (bit - GPB0));
+		val &= mask;
+		if (!mcp23017__write_portB(val)) {
+			fprintf(stderr, "clear_bit(): can't write portB\n");
+			return false;
+		}
+	}
+
+	return true;
 }
