@@ -322,8 +322,10 @@ usage (char *cmd_p)
 	if (cmd_p != NULL)
 		printf("%s [options]\n", cmd_p);
 	printf("  options\n");
-	printf(" -h|--help    Print usage help and exit successfully\n");
-	printf(" -1|--bank1   Use IOCON.BANK=1 (default IOCON.BANK=0\n");
+	printf(" -h|--help         Print usage help and exit successfully\n");
+	printf(" -d|--device <d>   Use i2c device <d> (default:/dev/i2c-1)\n");
+	printf(" -a|--address <a>  Use i2c device address <a> (default:0x20)\n");
+	printf(" -1|--bank1        Use IOCON.BANK=1 (default:IOCON.BANK=0)\n");
 }
 
 static bool
