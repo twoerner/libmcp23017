@@ -124,14 +124,15 @@ process_cmd (void)
 		case 2:
 			fflush(stdin);
 			printf("please enter a value for 0x%02x: ", (ch==1?GPIOA:GPIOB));
-			if (fgets(buf, sizeof(buf), stdin) != NULL) {
-				if (sscanf(buf, "%hhi", &val) == 1)
-					i2c_smbus_write_byte_data(i2cFd_G, (ch == 1? GPIOA:GPIOB), val);
-				else
-					perror("sscanf() error\n");
+			if (fgets(buf, sizeof(buf), stdin) == NULL) {
+				perror("fgets() error");
+				break;
 			}
-			else
-				perror("fgets() error\n");
+			if (sscanf(buf, "%hhi", &val) != 1) {
+				fprintf(stderr, "sscanf() error\n");
+				break;
+			}
+			i2c_smbus_write_byte_data(i2cFd_G, (ch == 1? GPIOA:GPIOB), val);
 			break;
 
 		case 3:
@@ -145,14 +146,15 @@ process_cmd (void)
 		case 5:
 			fflush(stdin);
 			printf("register: ");
-			if (fgets(buf, sizeof(buf), stdin) != NULL) {
-				if (sscanf(buf, "%hhi", &val) == 1)
-					i2c_smbus_write_byte_data(i2cFd_G, (ch == 1? GPIOA:GPIOB), val);
-				else
-					perror("sscanf() error\n");
+			if (fgets(buf, sizeof(buf), stdin) == NULL) {
+				perror("fgets() error");
+				break;
 			}
-			else
-				perror("fgets() error\n");
+			if (sscanf(buf, "%hhi", &val) != 1) {
+				fprintf(stderr, "sscanf() error\n");
+				break;
+			}
+			i2c_smbus_write_byte_data(i2cFd_G, (ch == 1? GPIOA:GPIOB), val);
 			ret = i2c_smbus_read_byte_data(i2cFd_G, val);
 			printf("register: 0x%02x is 0x%02x\n", val, (uint8_t)ret);
 			break;
